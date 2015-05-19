@@ -7,9 +7,9 @@ int a[1000];
 
 void output(int *a)
 {
-	for(int i=1;i<=n;i++)
-		cout<<a[i];
-	cout<<endl;
+	for(int i=1;i<n;i++)
+		cout<<a[i]<<" ";
+	cout<<a[n]<<endl;
 }
 
 void swap(int i,int j)
