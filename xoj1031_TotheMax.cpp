@@ -1,35 +1,31 @@
 #include<iostream>
+#include<cstdio>
 using namespace std;
-int a[105][105],m[105][105][105];
+#define MAX 105
 int main()
 {
-	int n,i,j,k;
+	int n;
+	int a[MAX][MAX]={0};
+	int colsum[MAX][MAX]={0};
+	int max=0,sum;
 	cin>>n;
-	for(i=1; i<=n; i++)
-		for(j=1; j<=n; j++)
+	for(int i=0;i<n;i++)
+		for(int j=1;j<=n;j++)
 		{
-			cin>>a[i][j]; 
-			m[i][i][j]=a[i][j];//这个是原来的不需要操作的
+			cin>>a[i][j-1];
+			colsum[i][j]=colsum[i][j-1]+a[i][j-1];
 		}
-	for(i=1; i<=n; i++)//指的是列的操作的
-	{ 
-		 for(j=1; j<=n; j++)//代表的是第i列的从j到k行的喝的
-			 for(k=j+1; k<=n; k++)
-			 {
-				 m[j][k][i]=m[j][k-1][i]+a[k][i];
-			 }
-	}
-	int Max=0;//用来记录的是最后的最大的矩阵的和的
-	for(i=1; i<=n; i++)
-		for(j=i; j<=n; j++)
+	for(int i=0;i<n;i++)
+		for(int j=i;j<=n;j++)//从第i行到第j行
 		{
-			for(k=2; k<=n; k++)
-				if(m[i][j][k-1]>0)
-					m[i][j][k]+=m[i][j][k-1];
-			for(k=1; k<=n; k++)
-				if(m[i][j][k]>Max)
-					Max=m[i][j][k];
+			sum=0;
+			for(int k=0;k<n;k++)//每列的和
+			{
+				sum+=colsum[k][j]-colsum[k][i];
+				if(sum<0) sum=0;
+				else if(sum>max) max=sum;
+			}
 		}
-	cout<<Max<<endl;
+	cout<<max<<endl;
 	return 0;
 }
